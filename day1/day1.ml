@@ -40,10 +40,13 @@ let rl = List.map
 
 let diff = List.map2 (fun x y -> abs(x - y)) ll rl
 
-let () =
-  Printf.printf "Part 1 - sum is:  %i\n" (List.fold_left (+) 0 diff)
+let sum_diff = List.fold_left (+) 0 diff
+
+let () = Printf.printf "Part 1 - sum of diff:  %i\n" sum_diff
+
 
 let simm = List.map (fun x -> x * occur x rl) ll
 
-let () =
-  Printf.printf "Part 2 - sum is:  %i\n" (List.fold_left (+) 0 simm)
+let sum_simm = List.fold_left (+) 0 simm
+
+let () = Printf.printf "Part 2 - sum of simm:  %i\n" sum_simm
