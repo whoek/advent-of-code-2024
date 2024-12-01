@@ -8,15 +8,11 @@ let rec last lst =
   | [x] -> x
   | _::tl -> last tl
 
-(* read file into a list - every line is an element *)
+(* read file into a string list - every line is an element *)
 let lines f =
   let contents = In_channel.with_open_bin f
       In_channel.input_all in
   String.split_on_char '\n' contents
-
-(* how many times does element v occur in list lst *)
-let occur v lst =
-  List.find_all (fun x -> x = v) lst |> List.length
 
 (****** END of helper functions ******)
 
@@ -42,6 +38,10 @@ let () =
   Printf.printf "Part 1 - sum of diff:  %i\n" sum_diff
 
 let () =
+  (* occur: how many times does v occur in list lst *)
+  let occur v lst =
+    List.find_all (fun x -> x = v) lst |> List.length
+  in
   let simm = List.map (fun x -> x * occur x right) left in
   let sum_simm = List.fold_left (+) 0 simm in
   Printf.printf "Part 2 - sum of simm:  %i\n" sum_simm
