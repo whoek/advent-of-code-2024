@@ -8,13 +8,13 @@ let rec last lst =
   | [x] -> x
   | _::tl -> last tl
 
-(* read file into a list - every line is a element *)
+(* read file into a list - every line is an element *)
 let lines f =
   let contents = In_channel.with_open_bin f
       In_channel.input_all in
   String.split_on_char '\n' contents
 
-(* how many times does element v occur in list l *)
+(* how many times does element v occur in list lst *)
 let occur v lst =
   List.find_all (fun x -> x = v) lst |> List.length
 
