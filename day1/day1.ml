@@ -1,9 +1,3 @@
-(****************************************
-    Day 1 of AOC 2024
-    https://adventofcode.com/2024/day/1
-
- *****************************************)
-
 (****** BEGIN helper functions ******)
 
 let first l = List.hd l
