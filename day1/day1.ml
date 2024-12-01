@@ -15,8 +15,8 @@ let lines f =
   String.split_on_char '\n' contents
 
 (* how many times does element v occur in list l *)
-let occur v l =
-  List.find_all (fun x -> x = v) l |> List.length
+let occur v lst =
+  List.find_all (fun x -> x = v) lst |> List.length
 
 (****** END of helper functions ******)
 
