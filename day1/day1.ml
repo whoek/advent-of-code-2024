@@ -24,23 +24,20 @@ let data =  lines file
 
 (* get left & right value in every string -> convert to INT -> sort list *)
 
-let ll = List.map
+let left = List.map
     (fun x -> String.split_on_char ' ' x |> first |> int_of_string) data
          |>  List.sort compare
 
-let rl = List.map
+let right = List.map
     (fun x -> String.split_on_char ' ' x |> last |> int_of_string) data
          |>  List.sort compare
 
-let diff = List.map2 (fun x y -> abs(x - y)) ll rl
+let () =
+  let diff = List.map2 (fun x y -> abs(x - y)) left right in
+  let sum_diff = List.fold_left (+) 0 diff in
+  Printf.printf "Part 1 - sum of diff:  %i\n" sum_diff
 
-let sum_diff = List.fold_left (+) 0 diff
-
-let () = Printf.printf "Part 1 - sum of diff:  %i\n" sum_diff
-
-
-let simm = List.map (fun x -> x * occur x rl) ll
-
-let sum_simm = List.fold_left (+) 0 simm
-
-let () = Printf.printf "Part 2 - sum of simm:  %i\n" sum_simm
+let () =
+  let simm = List.map (fun x -> x * occur x right) left in
+  let sum_simm = List.fold_left (+) 0 simm in
+  Printf.printf "Part 2 - sum of simm:  %i\n" sum_simm
