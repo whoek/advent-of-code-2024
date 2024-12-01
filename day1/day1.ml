@@ -22,8 +22,7 @@ let file = "input.txt"
 let data =  lines file
             |> List.filter (fun x -> (String.length x) > 0)
 
-(* get left & right value in every string -> convert to INT -> sort list *)
-
+(* get left & right values of every string -> convert to INT -> sort list *)
 let left = List.map
     (fun x -> String.split_on_char ' ' x |> first |> int_of_string) data
          |>  List.sort compare
