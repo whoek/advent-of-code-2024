@@ -1,4 +1,4 @@
-(****** BEGIN helper functions ******)
+(****** START of helper functions ******)
 
 let first l = List.hd l
 
@@ -14,7 +14,8 @@ let lines f =
 let occur v l =
   List.find_all (fun x -> x = v) l |> List.length
 
-(****** END helper functions ******)
+(****** END of helper functions ******)
+
 
 let file = "input.txt"
 
