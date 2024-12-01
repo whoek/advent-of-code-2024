@@ -1,8 +1,12 @@
 (****** START of helper functions ******)
 
-let first l = List.hd l
+let first lst = List.hd lst
 
-let last l = List.rev l |> List.hd
+let rec last lst =
+  match lst with
+  | [] -> failwith "list empty"
+  | [x] -> x
+  | _::tl -> last tl
 
 (* read file into a list - every line is a element *)
 let lines f =
