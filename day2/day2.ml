@@ -21,7 +21,7 @@ let rec delta lst = match lst with
 
 let () = assert (delta [1;2;5;4] = [1; 3; -1])
 
-let report_safe lst =
+let safe_report lst =
   List.for_all (fun x -> x > 0 && x <= 3) lst ||  (* increasing *)
   List.for_all (fun x -> x < 0 && x >= -3) lst    (* decreasing *)
 
@@ -29,10 +29,9 @@ let () =
   let safe_lines =
     data
     |> List.map delta
-    |> List.filter report_safe
+    |> List.filter safe_report
   in
   Printf.printf "Part 1 - sum of safe reports:  %i\n" @@ List.length safe_lines
-
 
 (* Part 1 - sum of safe reports:  549  *)
 
@@ -46,24 +45,26 @@ let () =
 let copy lst =
   List.init (List.length lst) (fun _ -> lst)
 
-let () = assert (copy [1;2] = [[1;2];[1;2]])
+let () = assert (copy [1;2;3] = [[1;2;3]; [1;2;3]; [1;2;3]])
 
 let remove_level n lst =
   List.filteri (fun i _ -> i <> n) lst
 
-let () = assert (remove_level 1 [1;2;3;4] = [1;3;4])
+let () = assert (remove_level 1 [1;2;3] = [1;3])
 
-(* remove a different element from list of list *)
+(* remove different elements in list of list *)
 let remove_report lst =
   List.mapi (fun i x -> remove_level i x) lst
 
+let () = assert (copy [1;2;3] |> remove_report = [[2;3]; [1;3]; [1;2]])
+
 let apply_damp rep =
-  if report_safe rep then rep
+  if safe_report rep then rep
   else
     let best_report =
       rep
       |> copy |> remove_report
-      |> List.find_opt (fun x -> report_safe @@ delta x) in
+      |> List.find_opt (fun x -> safe_report @@ delta x) in
     match best_report  with
     | Some x -> x      (* Safe solution found *)
     | None -> rep      (* No Safe damping repor, keep original report *)
@@ -73,7 +74,7 @@ let () =
     data
     |> List.map apply_damp
     |> List.map delta
-    |> List.filter report_safe
+    |> List.filter safe_report
   in
   Printf.printf "Part 2 - sum of safe DAMPED reports:  %i\n" @@ List.length safe_lines
 
