@@ -14,7 +14,7 @@ let data =  lines file
             |> List.map (fun x -> String.split_on_char ' ' x
                                   |> List.map int_of_string)
 
-(* dermine difference between consecutive elements in list *)
+(* calculate difference between consecutive elements in list *)
 let rec delta lst = match lst with
   | x1 :: x2 :: x3 -> (x2 - x1) :: delta (x2 :: x3)
   | x1 -> []
