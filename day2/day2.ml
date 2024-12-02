@@ -1,31 +1,29 @@
-(****** START of helper functions ******)
-
-(* read file into a string list - every line is an element *)
-let lines f =
-  let contents = In_channel.with_open_bin f
-      In_channel.input_all in
-  String.split_on_char '\n' contents
-
-(****** END of helper functions ******)
-
 
 (* let file = "test.txt" *)
 let file = "input.txt"
 
-(* get data and filter out empty lines -- e.g. last one might be *)
+(* read file into a string list  *)
+let lines file =
+  let contents = In_channel.with_open_bin file
+      In_channel.input_all in
+  String.split_on_char '\n' contents
+
+(* get data and filter out empty lines  e.g. last one might be *)
 let data =  lines file
             |> List.filter (fun x -> (String.length x) > 0)
             |> List.map (fun x -> String.split_on_char ' ' x
                                   |> List.map int_of_string)
 
+(* determine diffirence between values in list *)
 let rec delta lst = match lst with
   | x1 :: x2 :: x3 -> (x2 - x1) :: delta (x2 :: x3)
   | x1 -> []
 
+let () = assert (delta [1;2;5;4] = [1; 3; -1])
+
 let report_safe lst =
   List.for_all (fun x -> x > 0 && x <= 3) lst ||
   List.for_all (fun x -> x < 0 && x >= -3) lst
-
 
 let () =
   let safe_lines =
@@ -36,14 +34,12 @@ let () =
   Printf.printf "Part 1 - sum of safe reports:  %i\n" @@ List.length safe_lines
 
 
-(* PART 1 = 549  *)
+(* Part 1 - sum of safe reports:  549  *)
 
 
-(*  Approach followed for Part two
-
+(*  Approach followed for Part 2
 Where a report is Unsafe - remove a level one-by-one to see if it is Safe
 If a Safe record is found, use that as Damped report
-
 *)
 
 
@@ -83,8 +79,6 @@ let () =
 
 
 (*
-
-# ocaml day2.ml
 
 Part 1 - sum of safe reports:  549
 Part 2 - sum of safe DAMPED reports:  589
