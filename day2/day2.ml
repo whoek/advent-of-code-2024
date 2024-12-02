@@ -14,7 +14,7 @@ let data =  lines file
             |> List.map (fun x -> String.split_on_char ' ' x
                                   |> List.map int_of_string)
 
-(* determine diffirence between values in list *)
+(* dermine difference between consecutive elements in list *)
 let rec delta lst = match lst with
   | x1 :: x2 :: x3 -> (x2 - x1) :: delta (x2 :: x3)
   | x1 -> []
@@ -22,8 +22,8 @@ let rec delta lst = match lst with
 let () = assert (delta [1;2;5;4] = [1; 3; -1])
 
 let report_safe lst =
-  List.for_all (fun x -> x > 0 && x <= 3) lst ||
-  List.for_all (fun x -> x < 0 && x >= -3) lst
+  List.for_all (fun x -> x > 0 && x <= 3) lst ||  (* increasing *)
+  List.for_all (fun x -> x < 0 && x >= -3) lst    (* decreasing *)
 
 let () =
   let safe_lines =
@@ -38,8 +38,8 @@ let () =
 
 
 (*  Approach followed for Part 2
-Where a report is Unsafe - remove a level one-by-one to see if it is Safe
-If a Safe record is found, use that as Damped report
+    Where a report is Unsafe - remove a level one-by-one to see if it is Safe
+    If a Safe record is found, use that as Damped report
 *)
 
 
