@@ -39,10 +39,18 @@ let () =
 
 (*  notepad // delete when done
 
-pos 1 = "do()"
-pos 2 =  "don't"
-pos 4 = "mul"
 
-match
+get_do : data -> [0; 30; start_pos; ... ]
+
+get_dont : data -> [10; start_pos; ... ]
+
+get_mul : data -> [(start_pos, value),...]
+
+usable  : do -> dont ->  [(0, 4); (star. end); ... ]
+
+remove : usable -> get_mul ->  [(start. value); ... ]
+
+
+
 
 *)
