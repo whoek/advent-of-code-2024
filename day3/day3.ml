@@ -39,16 +39,10 @@ let () =
 
 (*  notepad // delete when done
 
+filter out between do & dont --> recursively
 
-get_do : data -> [0; 30; start_pos; ... ]
+recalcualte
 
-get_dont : data -> [10; start_pos; ... ]
-
-get_mul : data -> [(start_pos, value),...]
-
-usable  : do -> dont ->  [(0, 4); (star. end); ... ]
-
-remove : usable -> get_mul ->  [(start. value); ... ]
 
 
 
