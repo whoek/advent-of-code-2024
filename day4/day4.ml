@@ -65,7 +65,7 @@ let dl y x =
   if (yy - y) > 3 &&  x > 2 &&
      (s (d.(y+1).(x-1)) ^ s (d.(y+2).(x-2)) ^ s (d.(y+3).(x-3))) = xmas then 1 else 0
 
-let p =
+let p1 =
   let n = ref 0 in
   for y = 0 to yy - 1 do
     for x = 0 to xx - 1 do
@@ -76,6 +76,38 @@ let p =
   done;
   !n
 
-let () = Printf.printf "Part 1 - %i" p
+let () = Printf.printf "Part 1 - %i\n" p1
 
 (* 2575 *)
+
+(*  4 options: lets call them mm ms ss sm  based on top row
+
+M M    M S    S S    S M
+ A      A      A      A
+S S    M S    M M    S M
+
+MMSS   MSMS   SSMM   SMSM
+
+*)
+
+let check y x = if
+  (s (d.(y-1).(x-1)) ^ s (d.(y-1).(x+1)) ^ s (d.(y+1).(x-1)) ^ s (d.(y+1).(x+1)) ) = "MMSS" ||
+  (s (d.(y-1).(x-1)) ^ s (d.(y-1).(x+1)) ^ s (d.(y+1).(x-1)) ^ s (d.(y+1).(x+1)) ) = "MSMS" ||
+  (s (d.(y-1).(x-1)) ^ s (d.(y-1).(x+1)) ^ s (d.(y+1).(x-1)) ^ s (d.(y+1).(x+1)) ) = "SSMM" ||
+  (s (d.(y-1).(x-1)) ^ s (d.(y-1).(x+1)) ^ s (d.(y+1).(x-1)) ^ s (d.(y+1).(x+1)) ) = "SMSM"
+  then 1 else 0
+
+
+let p2 =
+  let n = ref 0 in
+  for y = 0 to yy - 1 do
+    for x = 0 to xx - 1 do
+      if d.(y).(x) = 'A' &&  x > 0 && (xx - x) > 1 && y > 0 && (yy - y) > 1 then
+        n := !n + check y x
+    done
+  done;
+  !n
+
+let () = Printf.printf "Part 2 - %i\n" p2
+
+(* 2041 *)
