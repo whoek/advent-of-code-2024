@@ -1,5 +1,5 @@
 
-(* let input_file = "sample.txt" *)
+(* let input file = "sample.txt" *)
 let input_file = "input.txt"
 
 let load file =
@@ -13,46 +13,57 @@ let d =  load input_file
 let _ = assert (List.nth d 100 = "52|15")
 let _ = assert (List.nth d 1200 = "75,58,48,42,29,78,66,55,83,87,94")
 
+let mkpair l =
+  match l with
+  | a :: b :: _ -> (a, b)
+  | [] | [_] -> failwith "Invalid state"
+
 (* string list list *)
 let rules = d
             |> List.map (String.split_on_char '|')
             |> List.filter (fun x -> (List.length x) > 1)
+            |> List.map mkpair
 
 (* string list list *)
-let updates = d
+let pages = d
               |> List.map (String.split_on_char ',')
               |> List.filter (fun x -> (List.length x) > 1)
 
 
-let find_dest x =
-  List.filter (fun y -> List.hd y = x) rules
+let find_rules (u, _) =
+  List.filter (fun (x, y) -> x = u) rules
 
-let rec check_x_to_y main   = match lst with
-  | x :: y :: _ when x = y -> true
-  | _ -> begin
-      let targets = find_dest lst in
-      let
+let rec check_from_to acc (u, v)=
+  if acc > 10 then false
+  else
+  if u = v then true     (* reached destination *)
+  else
+    let targets = find_rules (u, v) in
+    let () = Printf.printf "check_from_to: %s - %s - len: %i acc: %i\n%!"
+        u v (List.length targets) acc in
+    List.exists (check_from_to (acc + 1))  targets
+
+let rec check_pages lst =
+match lst with
+  | x :: y :: rest -> begin
+      Printf.printf "check_pages: %s - %s\n%!" x y;
+      if check_from_to 0 (x, y)
+      then check_pages @@ y :: rest
+      else false
     end
-
-
-
-
-let rec check_pages lst = match lst with
-  | x :: y :: tl -> begin if check_x_to_y [x; y] then check_pages @@ y :: tl else false end
   | x :: [] -> true
   | [] -> failwith "not possible"
 
-let p1 = List.filter check_pages updates
+
+
+let p1 = pages
+         |> List.filter check_pages
          |> List.length
 
 let () = Printf.printf "Part 1 - %i" p1
 
 
 
-{* PART 1 IN PRORESS *)
-{* PART 1 IN PRORESS *)
-{* PART 1 IN PRORESS *)
-{* PART 1 IN PRORESS *)
 
 (*
 
