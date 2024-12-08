@@ -71,3 +71,18 @@ let p1 =
 let () = Printf.printf "part 1 = %i\n" p1
 
 (* part 1 -- 4977  *)
+
+
+
+(*
+
+There are 16800 blocks in grid.
+Any steps more than above means it is stuck in a loop.
+
+Simply brute force it -- to all positions one-one-by one.
+If > 20,000 steps -- asume it is in a loop.
+
+Go on with other days - part 1's -- then come back for part 2...
+
+
+*)
