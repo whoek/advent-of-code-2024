@@ -26,8 +26,8 @@ let rules = d
 
 (* string list list *)
 let pages = d
-              |> List.map (String.split_on_char ',')
-              |> List.filter (fun x -> (List.length x) > 1)
+            |> List.map (String.split_on_char ',')
+            |> List.filter (fun x -> (List.length x) > 1)
 
 
 let find_rules (u, _) =
@@ -44,7 +44,7 @@ let rec check_from_to acc (u, v)=
     List.exists (check_from_to (acc + 1))  targets
 
 let rec check_pages lst =
-match lst with
+  match lst with
   | x :: y :: rest -> begin
       Printf.printf "check_pages: %s - %s\n%!" x y;
       if check_from_to 0 (x, y)
