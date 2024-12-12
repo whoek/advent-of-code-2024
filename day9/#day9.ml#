@@ -20,24 +20,7 @@ let input = Hashtbl.create 20000
 let () = List.hd data
          |> String.iteri (fun i x ->  replace input i @@ (int_of_char x) - 48 )
 
-let output = Hashtbl.create 100_000
 
-
-
-
-
-
-(* NOTES -- delete when done
-
-12345
-
-0..111....22222
-
-
-file_length
-free_length
-
-number of digits = 19_999
 
 
 
