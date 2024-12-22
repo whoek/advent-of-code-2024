@@ -25,8 +25,38 @@ let rec foldi i f acc =
   if i <= 0 then acc else foldi (pred i) f (f acc)
 
 let part1 = List.fold_left (fun acc x ->
-    acc + foldi 2000 next x) 0 data
+    acc + foldi 2000 next x
+  ) 0 data
 
 let () = Printf.printf "Part 1 - %i\n" part1
 
 (* 16999668565 *)
+
+(* part 2 *)
+
+let prices_2000 i =
+  let rec prices secret n =
+    let secret_price = secret mod 10 in
+    match n with
+    | 0 -> []
+    | _ -> secret_price :: prices (next secret) (n - 1)
+  in prices i 2000
+
+(* prices_2000 123 -> [3; 0; 6; 5; 4; 4; 6; 4; 4; ...] *)
+
+let rec seq lst =
+  match lst with
+  | e1 :: e2 :: e3 :: e4 :: e5 :: tl -> begin
+      let seq_str = string_of_int (e2 - e1) ^
+          string_of_int (e3 - e2) ^
+          string_of_int (e4 - e3) ^
+          string_of_int (e5 - e4) in
+      (e5, seq_str) :: seq (e2 :: e3 :: e4 :: e5 :: tl)
+    end
+    | _ -> []
+
+(*
+let part2 = List.map (fun x ->
+    delta_2000 x
+  ) data
+*)
