@@ -6,7 +6,6 @@ let load file =
       In_channel.input_all in
   String.split_on_char '\n' contents
 
-
 let data =  load input_file
             |> List.filter (fun x -> (String.length x) > 0)
             |> List.map int_of_string
@@ -28,11 +27,11 @@ let part1 = List.fold_left (fun acc x ->
     acc + foldi 2000 next x
   ) 0 data
 
-let () = Printf.printf "Part 1 - %i\n" part1
+let () = Printf.printf "Part 1 - %i\n%!" part1
 
 (* 16999668565 *)
 
-(* part 2 *)
+(* ================ part 2 ================*)
 
 let prices_2000 i =
   let rec prices secret n =
@@ -48,12 +47,12 @@ let rec seq lst =
   match lst with
   | e1 :: e2 :: e3 :: e4 :: e5 :: tl -> begin
       let seq_str = string_of_int (e2 - e1) ^
-          string_of_int (e3 - e2) ^
-          string_of_int (e4 - e3) ^
-          string_of_int (e5 - e4) in
+                    string_of_int (e3 - e2) ^
+                    string_of_int (e4 - e3) ^
+                    string_of_int (e5 - e4) in
       (e5, seq_str) :: seq (e2 :: e3 :: e4 :: e5 :: tl)
     end
-    | _ -> []
+  | _ -> []
 
 
 let part2 = List.map (fun x ->
@@ -65,10 +64,33 @@ let part2 = List.map (fun x ->
 let uniq_seq  =
   List.map (fun x ->
       List.map (fun (p, s) -> s
-        ) x
+               ) x
     ) part2
   |> List.flatten
   |> List.sort_uniq compare
-  |> List.length
 
-(* 40951 unique 4 number sequinces  *)
+(* 40951 unique 4 number sequences  *)
+
+let [@inline] compare_points (_, a2) (_, b2) = compare  b2 a2
+
+(* this is HIGHLY inefficient / slow code *)
+let check_all =
+  let rec check  seq l =
+    match l with
+    | (p, s) :: _ when s = seq -> p
+    |  _ :: tl -> check seq tl
+    | [] -> 0
+  in
+  List.mapi (fun i x -> x, (
+      Printf.printf "%i \n%!" i;
+      List.map (fun y -> check x y) part2
+      |> List.fold_left ( + ) 0
+    )
+    ) uniq_seq
+  |> List.sort compare_points
+
+let () =
+  let seq, bananas = List.hd check_all in
+  Printf.printf "\npart 2:  %s  -> %i \n%!" seq bananas
+
+(* part2 = 1898 bananas -- runtime:61m54  :)     *)
