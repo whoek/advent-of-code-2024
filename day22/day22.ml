@@ -55,8 +55,20 @@ let rec seq lst =
     end
     | _ -> []
 
-(*
+
 let part2 = List.map (fun x ->
-    delta_2000 x
+    prices_2000 x
+    |> seq
   ) data
-*)
+
+(* get unique sequences *)
+let uniq_seq  =
+  List.map (fun x ->
+      List.map (fun (p, s) -> s
+        ) x
+    ) part2
+  |> List.flatten
+  |> List.sort_uniq compare
+  |> List.length
+
+(* 40951 unique 4 number sequinces  *)
