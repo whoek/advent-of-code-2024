@@ -76,18 +76,17 @@ let rec blink_p2 h =
           remove h 0 ;
           add_n h 1 v;
 
-
         end
       | k when v > 0 && even_digits k -> begin
           remove h k;
           add_n h (right_half k) v;
           add_n h (left_half k) v;
 
-
         end
       | _ when v > 0 -> begin
           remove h k;
           add_n h (k * 2024) v;
+
         end
       | _ when v = 0 -> remove h k
       | _ -> failwith "Invalid state"
