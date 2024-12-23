@@ -33,6 +33,10 @@ let () = Printf.printf "Part 1 - %i\n%!" part1
 
 (* ================ part 2 ================*)
 
+(*
+ * First 2000 prices for a secret
+ * e.g. prices_2000 123 = [3; 0; 6; 5; 4; 4; ...]
+ *)
 let prices_2000 i =
   let rec prices secret n =
     let secret_price = secret mod 10 in
@@ -41,8 +45,11 @@ let prices_2000 i =
     | _ -> secret_price :: prices (next secret) (n - 1)
   in prices i 2000
 
-(* prices_2000 123 -> [3; 0; 6; 5; 4; 4; 6; 4; 4; ...] *)
-
+(*
+ * Get all prices and sequences for all monkies
+ * int list -> (int * string) list
+ * e.g. [[(1, "42-81"); (9, "2-818"); ....
+ *)
 let rec seq lst =
   match lst with
   | e1 :: e2 :: e3 :: e4 :: e5 :: tl -> begin
@@ -54,27 +61,26 @@ let rec seq lst =
     end
   | _ -> []
 
-
-let part2 = List.map (fun x ->
+let price_and_seq = List.map (fun x ->
     prices_2000 x
     |> seq
   ) data
 
-(* get unique sequences *)
+(* get list of ALL unique 4 number sequences - 40_951 *)
 let uniq_seq  =
   List.map (fun x ->
-      List.map (fun (p, s) -> s
-               ) x
-    ) part2
+      List.map (fun (p, s) -> s) x
+    ) price_and_seq
   |> List.flatten
   |> List.sort_uniq compare
 
-(* 40951 unique 4 number sequences  *)
-
-let [@inline] compare_points (_, a2) (_, b2) = compare  b2 a2
-
-(* this is HIGHLY inefficient / slow code *)
+(*
+ * Calculate total bananas for every unique sequence
+ * this is HIGHLY inefficient: 1hr runtime but right answer
+ *)
 let check_all =
+  let compare_points (_, a2) (_, b2) =
+    compare  b2 a2 in
   let rec check  seq l =
     match l with
     | (p, s) :: _ when s = seq -> p
@@ -83,7 +89,7 @@ let check_all =
   in
   List.mapi (fun i x -> x, (
       Printf.printf "%i \n%!" i;
-      List.map (fun y -> check x y) part2
+      List.map (fun y -> check x y) price_and_seq
       |> List.fold_left ( + ) 0
     )
     ) uniq_seq
