@@ -1,5 +1,5 @@
-(* let input_file = "sample.txt" *)
-let input_file = "input.txt"
+let input_file = "sample.txt"
+(* let input_file = "input.txt" *)
 
 let load file =
   let contents = In_channel.with_open_bin file
@@ -84,12 +84,27 @@ let match2 (a,b,c) (x,y,z) =
     (if c = x || c = y || c = z then 1 else 0)
   ) = 2
 
+
+let all_linked (a,b,c) (x,y,z) =
+  List.exists (fun (m,n) -> m = a && n = x) pairs &&
+  List.exists (fun (m,n) -> m = a && n = y) pairs &&
+  List.exists (fun (m,n) -> m = a && n = z) pairs &&
+  List.exists (fun (m,n) -> m = b && n = x) pairs &&
+  List.exists (fun (m,n) -> m = b && n = y) pairs &&
+  List.exists (fun (m,n) -> m = b && n = z) pairs &&
+  List.exists (fun (m,n) -> m = c && n = x) pairs &&
+  List.exists (fun (m,n) -> m = c && n = y) pairs &&
+  List.exists (fun (m,n) -> m = c && n = z) pairs
+
+
+
+
 let list_of_trip (a,b,c) = [a;b;c]
 
 let part2 =
   List.map (fun x -> (
         x :: List.map (fun y ->
-            (if match2 x y then y else ("","",""))
+            (if all_linked x y then y else ("","",""))
           ) part1
         |> List.filter (fun (a,b,c) -> a <> "")
       )
